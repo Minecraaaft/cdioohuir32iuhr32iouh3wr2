@@ -1,0 +1,108 @@
+package ui;
+
+import data.IUserDAO;
+import data.UserDTO;
+import funktionalitet.Funk;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class TUI implements IUI {
+    private Scanner scanner = new Scanner(System.in);
+    Funk funk;
+    public TUI(Funk funk) {
+        this.funk = funk;
+    }
+
+    public void menu() {
+        System.out.println("" +
+                "Press 1-5:\n" +
+                "1.    Opret ny bruger\n" +
+                "2.    List Brugere\n" +
+                "3.    Ret bruger\n" +
+                "4.    Slet bruger\n" +
+                "5.    Afslut program\n");
+
+        switch (scanner.next()) {
+            case "1":
+                opretBruger();
+                break;
+            case "2":
+                listBruger();
+                break;
+            case "3":
+                retBruger();
+                break;
+            case "4":
+                sletBruger();
+                break;
+            case "5":
+                afslut();
+                break;
+        }
+    }
+
+    public void opretBruger() {
+        System.out.println("What is your name?");
+        String name = scanner.next();
+        System.out.println("please enter CPR :");
+        String cpr = scanner.next();
+        System.out.println("Please enter how many roles you have and which: ");
+        int amountOfRoles = scanner.nextInt();
+        List<String> roles = new ArrayList<>();
+        for (int i = 0; i < amountOfRoles; i++) {
+            roles.add(scanner.next());
+        }
+
+        try {
+            funk.makeUser(name, cpr, roles);
+        } catch (IUserDAO.DALException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void listBruger() {
+        try {
+            List<UserDTO> users = funk.getUsers();
+
+            for (int i = 0; i < users.size(); i++) {
+                System.out.print("Username: " + users.get(i).getUserName() + ", ID: " + users.get(i).getUserId() + ", roles: ");
+                for (int j = 0; j < users.get(i).getRoles().size(); j++) {
+                    System.out.print(users.get(i).getRoles().get(j) + " ");
+                }
+                System.out.println();
+            }
+            System.out.println();
+            System.out.println();
+        } catch (IUserDAO.DALException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+            System.out.println();
+        }
+
+    }
+
+    public void retBruger() {
+
+
+    }
+
+    public void sletBruger() {
+        System.out.println("Please enter userID you wish to delete: ");
+
+        int userToDelete = scanner.nextInt();
+        try {
+            funk.deleteUser(userToDelete);
+        } catch (IUserDAO.DALException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void afslut() {
+        System.out.println("goodbye");
+        System.exit(0);
+    }
+}
