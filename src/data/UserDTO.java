@@ -11,7 +11,6 @@ import java.util.List;
 public class UserDTO implements Serializable, IUserDTO {
 
     private static final long serialVersionUID = 4545864587995944260L;
-    private static int idCounter = 10;
     private int	userId;
     private String userName;
     private String cpr;
@@ -20,8 +19,8 @@ public class UserDTO implements Serializable, IUserDTO {
     private List<String> roles;
     //TODO Add relevant fields
 
-    public UserDTO(String userName, String cpr, String ini, List<String> roles, String password) {
-        this.userId = ++idCounter;
+    public UserDTO(int userID, String userName, String cpr, String ini, List<String> roles, String password) {
+        this.userId = userID;
         this.cpr = cpr;
         this.password = password;
         this.userName = userName;

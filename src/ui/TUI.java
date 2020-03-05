@@ -3,6 +3,7 @@ package ui;
 import data.IUserDAO;
 import data.UserDTO;
 import funktionalitet.Funk;
+import funktionalitet.IFunk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class TUI implements IUI {
     }
 
     public void menu() {
+        System.out.println();
         System.out.println("" +
                 "Press 1-5:\n" +
                 "1.    Opret ny bruger\n" +
@@ -44,21 +46,32 @@ public class TUI implements IUI {
     }
 
     public void opretBruger() {
-        System.out.println("What is your name?");
+        System.out.println();
+        System.out.println("Choose username: ");
         String name = scanner.next();
         System.out.println("please enter CPR :");
         String cpr = scanner.next();
-        System.out.println("Please enter how many roles you have and which: ");
-        int amountOfRoles = scanner.nextInt();
+
+        System.out.println("" +
+                "Choose your role: " +
+                "1: Pharmacist" +
+                "2: Foreman" +
+                "3: Operator" +
+                "4: Admin");
         List<String> roles = new ArrayList<>();
-        for (int i = 0; i < amountOfRoles; i++) {
-            roles.add(scanner.next());
+        String role = scanner.next();
+        while (!role.equals("Pharmacist") && !role.equals("Foreman") && !role.equals("Operator") && !role.equals("Admin")) {
+            role = scanner.next();
         }
+        roles.add(role);
+
 
         try {
             funk.makeUser(name, cpr, roles);
         } catch (IUserDAO.DALException e) {
             e.printStackTrace();
+        } catch (IFunk.AccountException e) {
+            System.out.println(e.accountNotSuccessful());
         }
 
     }
@@ -70,7 +83,7 @@ public class TUI implements IUI {
             for (int i = 0; i < users.size(); i++) {
                 System.out.print("Username: " + users.get(i).getUserName() + ", ID: " + users.get(i).getUserId() + ", roles: ");
                 for (int j = 0; j < users.get(i).getRoles().size(); j++) {
-                    System.out.print(users.get(i).getRoles().get(j) + " ");
+                    System.out.print(users.get(i).getRoles().get(j) + ", ");
                 }
                 System.out.println();
             }

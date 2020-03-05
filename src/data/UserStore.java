@@ -20,7 +20,6 @@ public class UserStore implements Serializable {
     }
 
     public void addUser(UserDTO user) {
-        
         users.add(user);
     }
 }

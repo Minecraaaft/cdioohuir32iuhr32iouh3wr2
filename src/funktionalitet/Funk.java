@@ -8,34 +8,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Funk {
+public class Funk implements IFunk {
     IUserDAO dao;
 
     public Funk(IUserDAO dao) {
         this.dao = dao;
     }
 
-    public void makeUser(String userName, String cpr, List<String> roles) throws IUserDAO.DALException {
+    public void makeUser(String userName, String cpr, List<String> roles) throws AccountException, IUserDAO.DALException {
         List<UserDTO> brugere;
 
-        int userID = 11;
-        try {
-            brugere = dao.getUserList();
-            userID += brugere.size();
-
-        } catch (IUserDAO.DALException e) {
-        }
-
-
-        char[] usernameCharArr = userName.toCharArray();
-        char[] arr = new char[3];
-        for (int i = 0; i < 3; i++) {
-            arr[i] = usernameCharArr[i];
-        }
+        brugere = dao.getUserList();
+        AccountLogic accountLogic = new AccountLogic();
+        int userID = accountLogic.findUserID(brugere);
+        accountLogic.checkUsedUsername(userName, brugere);
+        accountLogic.checkCPR(cpr);
+        String ini = accountLogic.createIni(userName);
 
         String pass = "mangler";
 
-        dao.createUser(new UserDTO(userName, cpr, new String(arr), roles, pass));
+        dao.createUser(new UserDTO(userID, userName, cpr, ini, roles, pass));
     }
 
     public List<UserDTO> getUsers() throws IUserDAO.DALException {
@@ -46,7 +38,68 @@ public class Funk {
         dao.deleteUser(userID);
     }
 
-    public static class FunkException extends Exception {
+
+    private class AccountLogic {
+        public int findUserID(List<UserDTO> list) throws AccountException {
+            int userID = 11;
+
+            ArrayList<UserDTO> brugere = (ArrayList<UserDTO>) list;
+            userID += brugere.size();
+            for (int i = 11; i < 100; i++) {
+                for (int j = 0; j < brugere.size(); j++) {
+                    if (brugere.get(j).getUserId() == i) {
+                        continue;
+                    }
+                    return j;
+                }
+            }
+            throw new AccountException("Too many users.");
+        }
+
+        public boolean checkUsedUsername(String username, List<UserDTO> list) throws AccountException {
+            char[] usernameChar = username.toCharArray();
+            if (username.length() < 2)  {
+                throw new AccountException("Username too short.");
+            }
+            if (username.length() > 20) {
+                throw new AccountException("Username too long.");
+            }
+            for (UserDTO user : list) {
+                if (user.getUserName().equals(username)) {
+                    throw new AccountException("Username already used.");
+                }
+            }
+
+            return true;
+        }
+
+        public boolean checkCPR(String cpr) throws AccountException {
+            char[] cprChar = cpr.toCharArray();
+            if (cprChar.length != 10) {
+                throw new AccountException("CPR number not the correct length");
+            }
+            for (int i = 0; i < cprChar.length; i++) {
+                if (cprChar[i] < 60 || cprChar[i] > 71) {
+                    throw new AccountException("CPR number not corrrect");
+                }
+            }
+            return true;
+        }
+
+        public String createIni(String username) {
+            char[] usernameChar = username.toCharArray();
+            int iniLength = usernameChar.length;
+            if (iniLength > 4) {
+                iniLength = 4;
+            }
+
+            String ini = "";
+            for (int i = 0; i < iniLength; i++) {
+                ini += usernameChar[i];
+            }
+
+            return ini;
+        }
 
     }
 
