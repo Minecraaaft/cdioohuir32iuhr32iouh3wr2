@@ -30,14 +30,10 @@ public class UserDAO implements IUserDAO, Serializable {
     @Override
     public void createUser(UserDTO user) throws DALException {
         UserStore users;
-        try {
-            users = loadUsers();
+        users = loadUsers();
 
-        } catch (Exception e) {
-            saveUsers(new UserStore());
-            users = loadUsers();
-        }
-
+        saveUsers(new UserStore());
+        users = loadUsers();
 
         users.addUser(user);
         saveUsers(users);
@@ -52,13 +48,19 @@ public class UserDAO implements IUserDAO, Serializable {
     public void deleteUser(int userId) throws DALException {
         UserStore userStore = loadUsers();
         List<UserDTO> users = userStore.getUsers();
+        boolean idFound = false;
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUserId() == userId) {
                 users.remove(i);
+                idFound = true;
             }
+        }
+        if (!idFound) {
+            throw new DALException("ID not found");
         }
         userStore.setUsers(users);
         saveUsers(userStore);
+
     }
 
 

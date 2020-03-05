@@ -30,7 +30,7 @@ public class Funk implements IFunk {
         dao.createUser(new UserDTO(userID, userName, cpr, ini, roles, pass));
     }
 
-    public List<UserDTO> getUsers() throws IUserDAO.DALException {
+    public List getUsers() throws IUserDAO.DALException {
         return dao.getUserList();
     }
 
@@ -50,7 +50,7 @@ public class Funk implements IFunk {
                     if (brugere.get(j).getUserId() == i) {
                         continue;
                     }
-                    return j;
+                    return i;
                 }
             }
             throw new AccountException("Too many users.");
@@ -79,7 +79,7 @@ public class Funk implements IFunk {
                 throw new AccountException("CPR number not the correct length");
             }
             for (int i = 0; i < cprChar.length; i++) {
-                if (cprChar[i] < 60 || cprChar[i] > 71) {
+                if (cprChar[i] < 48 || cprChar[i] > 57) {
                     throw new AccountException("CPR number not corrrect");
                 }
             }

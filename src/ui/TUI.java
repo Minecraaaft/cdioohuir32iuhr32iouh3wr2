@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class TUI implements IUI {
     private Scanner scanner = new Scanner(System.in);
-    Funk funk;
+    private Funk funk;
     public TUI(Funk funk) {
         this.funk = funk;
     }
@@ -47,23 +47,32 @@ public class TUI implements IUI {
 
     public void opretBruger() {
         System.out.println();
-        System.out.println("Choose username: ");
+        System.out.println("Choose username (no spaces): ");
         String name = scanner.next();
         System.out.println("please enter CPR :");
         String cpr = scanner.next();
 
         System.out.println("" +
                 "Choose your role: " +
-                "1: Pharmacist" +
-                "2: Foreman" +
-                "3: Operator" +
-                "4: Admin");
+                "\n1: Pharmacist" +
+                "\n2: Foreman" +
+                "\n3: Operator" +
+                "\n4: Admin");
         List<String> roles = new ArrayList<>();
-        String role = scanner.next();
-        while (!role.equals("Pharmacist") && !role.equals("Foreman") && !role.equals("Operator") && !role.equals("Admin")) {
-            role = scanner.next();
+        int role = scanner.nextInt();
+        while (role != 1 && role != 2 && role != 3 && role != 4) {
+            role = scanner.nextInt();
         }
-        roles.add(role);
+        if (role == 1) {
+            roles.add("Pharmacist");
+        } else if (role == 2) {
+            roles.add("Foreman");
+        } else if (role == 3) {
+            roles.add("Operator");
+        } else if (role == 4) {
+            roles.add("Admin");
+        }
+
 
 
         try {
@@ -78,20 +87,14 @@ public class TUI implements IUI {
 
     public void listBruger() {
         try {
-            List<UserDTO> users = funk.getUsers();
+            List users = funk.getUsers();
 
             for (int i = 0; i < users.size(); i++) {
-                System.out.print("Username: " + users.get(i).getUserName() + ", ID: " + users.get(i).getUserId() + ", roles: ");
-                for (int j = 0; j < users.get(i).getRoles().size(); j++) {
-                    System.out.print(users.get(i).getRoles().get(j) + ", ");
-                }
-                System.out.println();
+                System.out.println(users.get(i));
             }
-            System.out.println();
             System.out.println();
         } catch (IUserDAO.DALException e) {
             System.out.println(e.getMessage());
-            System.out.println();
             System.out.println();
         }
 
@@ -103,13 +106,14 @@ public class TUI implements IUI {
     }
 
     public void sletBruger() {
+        listBruger();
         System.out.println("Please enter userID you wish to delete: ");
 
         int userToDelete = scanner.nextInt();
         try {
             funk.deleteUser(userToDelete);
         } catch (IUserDAO.DALException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
     }
