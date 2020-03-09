@@ -1,12 +1,13 @@
 package data;
 
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO implements IUserDAO, Serializable {
-    List<UserDTO> users = new ArrayList<>();
-    String fileName = "data.txt";
+    private List<UserDTO> users = new ArrayList<>();
+    private String fileName = "data.txt";
 
     public UserDAO() {
 
@@ -15,7 +16,12 @@ public class UserDAO implements IUserDAO, Serializable {
     @Override
     public UserDTO getUser(int userId) throws DALException {
         List<UserDTO> users = loadUsers().getUsers();
-        return users.get(userId);
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUserId() == userId) {
+                return users.get(i);
+            }
+        }
+        throw new DALException("Can't find ID");
     }
 
     @Override
@@ -30,10 +36,13 @@ public class UserDAO implements IUserDAO, Serializable {
     @Override
     public void createUser(UserDTO user) throws DALException {
         UserStore users;
-        users = loadUsers();
+        try {
+            users = loadUsers();
 
-        saveUsers(new UserStore());
-        users = loadUsers();
+        } catch (Exception e) {
+            saveUsers(new UserStore());
+            users = loadUsers();
+        }
 
         users.addUser(user);
         saveUsers(users);
@@ -41,7 +50,16 @@ public class UserDAO implements IUserDAO, Serializable {
 
     @Override
     public void updateUser(UserDTO user) throws DALException {
+        UserStore users;
+        users = loadUsers();
+        List<UserDTO> userList = users.getUsers();
 
+        UserDTO u = users.getUser(user.getUserId());
+
+        userList.remove(u);
+        userList.add(user);
+        users.setUsers(userList);
+        saveUsers(users);
     }
 
     @Override

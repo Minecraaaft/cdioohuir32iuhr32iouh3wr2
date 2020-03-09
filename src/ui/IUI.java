@@ -1,11 +1,9 @@
 package ui;
 
-import data.IUserDAO;
-
 public interface IUI {
-    void menu() throws IUserDAO.DALException;
+    void menu();
     void opretBruger();
-    void listBruger() throws IUserDAO.DALException;
+    void listBruger();
     void retBruger();
     void sletBruger();
     void afslut();

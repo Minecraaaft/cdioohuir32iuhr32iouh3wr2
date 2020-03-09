@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Funk implements IFunk {
     IUserDAO dao;
+    AccountLogic accountLogic = new AccountLogic();
 
     public Funk(IUserDAO dao) {
         this.dao = dao;
@@ -19,7 +20,6 @@ public class Funk implements IFunk {
         List<UserDTO> brugere;
 
         brugere = dao.getUserList();
-        AccountLogic accountLogic = new AccountLogic();
         int userID = accountLogic.findUserID(brugere);
         accountLogic.checkUsedUsername(userName, brugere);
         accountLogic.checkCPR(cpr);
@@ -28,6 +28,42 @@ public class Funk implements IFunk {
         String pass = "mangler";
 
         dao.createUser(new UserDTO(userID, userName, cpr, ini, roles, pass));
+    }
+
+    public void updateUsername(int id, String username) throws AccountException, IUserDAO.DALException {
+        accountLogic.checkUsedUsername(username, dao.getUserList());
+        UserDTO userDTO = dao.getUser(id);
+        userDTO.setUserName(username);
+
+        String ini = accountLogic.createIni(username);
+        userDTO.setIni(ini);
+
+        dao.updateUser(userDTO);
+    }
+
+    public void addRole(int id, String role) throws IUserDAO.DALException, AccountException {
+        accountLogic.checkRole(role);
+        UserDTO userDTO = dao.getUser(id);
+        userDTO.addRole(role);
+
+        dao.updateUser(userDTO);
+    }
+
+    public void removeRole(int id, String role) throws IUserDAO.DALException, AccountException {
+        accountLogic.checkRole(role);
+        UserDTO userDTO = dao.getUser(id);
+        userDTO.removeRole(role);
+
+        dao.updateUser(userDTO);
+    }
+
+    public void changeRole(int id, String oldRole, String newRole) throws IUserDAO.DALException, AccountException {
+        accountLogic.checkRole(newRole);
+        UserDTO userDTO = dao.getUser(id);
+        userDTO.getRoles().remove(oldRole);
+        userDTO.addRole(newRole);
+
+        dao.updateUser(userDTO);
     }
 
     public List getUsers() throws IUserDAO.DALException {
@@ -41,10 +77,8 @@ public class Funk implements IFunk {
 
     private class AccountLogic {
         public int findUserID(List<UserDTO> list) throws AccountException {
-            int userID = 11;
-
             ArrayList<UserDTO> brugere = (ArrayList<UserDTO>) list;
-            userID += brugere.size();
+
             for (int i = 11; i < 100; i++) {
                 for (int j = 0; j < brugere.size(); j++) {
                     if (brugere.get(j).getUserId() == i) {
@@ -53,6 +87,11 @@ public class Funk implements IFunk {
                     return i;
                 }
             }
+
+            if (brugere.isEmpty()) {
+                return 11;
+            }
+
             throw new AccountException("Too many users.");
         }
 
@@ -101,6 +140,16 @@ public class Funk implements IFunk {
             return ini;
         }
 
+        public void checkRole(String role) throws AccountException {
+            if (role.equals("Admin") || role.equals("Foreman") || role.equals("Operator") || role.equals("Pharmacist")) {
+
+            } else {
+                throw new AccountException("Role missspelled");
+            }
+        }
+
     }
+
+
 
 }

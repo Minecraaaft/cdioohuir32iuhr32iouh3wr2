@@ -1,7 +1,6 @@
 package ui;
 
 import data.IUserDAO;
-import data.UserDTO;
 import funktionalitet.Funk;
 import funktionalitet.IFunk;
 
@@ -101,8 +100,60 @@ public class TUI implements IUI {
     }
 
     public void retBruger() {
+        listBruger();
+        System.out.println("Please enter userID from the user you wish to edit: ");
+        int id = scanner.nextInt();
+        System.out.println("" +
+                "\nPress 1-3: " +
+                "\n1. edit username" +
+                "\n2. add role" +
+                "\n3. remove role" +
+                "\n4. change role");
+        int option = scanner.nextInt();
+        if (option == 1) {
+            System.out.println("Type new username: ");
+            String newUsername = scanner.next();
+            try {
+                funk.updateUsername(id, newUsername);
+            } catch (IFunk.AccountException e) {
+                System.out.println(e.getMessage());
+            } catch (IUserDAO.DALException e) {
+                System.out.println(e.getMessage());
+            }
 
-
+        } else if (option == 2) {
+            System.out.println("Type role to add: ");
+            String role = scanner.next();
+            try {
+                funk.addRole(id, role);
+            } catch (IUserDAO.DALException e) {
+                System.out.println(e.getMessage());
+            } catch (IFunk.AccountException e) {
+                System.out.println(e.getMessage());
+            }
+        } else if (option == 3) {
+            System.out.println("Type role to remove: ");
+            String role = scanner.next();
+            try {
+                funk.removeRole(id, role);
+            } catch (IUserDAO.DALException e) {
+                System.out.println(e.getMessage());
+            } catch (IFunk.AccountException e) {
+                System.out.println(e.getMessage());
+            }
+        } else if (option == 4) {
+            System.out.println("Type role you want to change: ");
+            String role = scanner.next();
+            System.out.println("Type new role: ");
+            String newRole = scanner.next();
+            try {
+                funk.changeRole(id, role, newRole);
+            } catch (IUserDAO.DALException e) {
+                System.out.println(e.getMessage());
+            } catch (IFunk.AccountException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public void sletBruger() {

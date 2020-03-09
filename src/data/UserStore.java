@@ -16,7 +16,13 @@ public class UserStore implements Serializable {
     }
 
     public UserDTO getUser(int userID) {
-        return users.get(userID);
+        UserDTO userDTO = null;
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUserId() == userID) {
+                userDTO = users.get(i);
+            }
+        }
+        return userDTO;
     }
 
     public void addUser(UserDTO user) {
