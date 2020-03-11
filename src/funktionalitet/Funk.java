@@ -168,18 +168,18 @@ public class Funk implements IFunk {
                 case 12: month = "december"; break;
             }
             switch (month){
-                case "januar": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
-                case "februar": if (dag > 28 || dag < 1) throw new AccountException("The day does not correspond to the month");
-                case "marts": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
-                case "april": if (dag > 30 || dag < 1) throw new AccountException("The day does not correspond to the month");
-                case "maj": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
-                case "juni": if (dag > 30 || dag < 1) throw new AccountException("The day does not correspond to the month");
-                case "juli": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
-                case "august": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
-                case "september": if (dag > 30 || dag < 1) throw new AccountException("The day does not correspond to the month");
-                case "oktober": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
-                case "november": if (dag > 30 || dag < 1) throw new AccountException("The day does not correspond to the month");
-                case "december": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
+                case "januar": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month"); break;
+                case "februar": if (dag > 28 || dag < 1) throw new AccountException("The day does not correspond to the month"); break;
+                case "marts": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month"); break;
+                case "april": if (dag > 30 || dag < 1) throw new AccountException("The day does not correspond to the month"); break;
+                case "maj": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month"); break;
+                case "juni": if (dag > 30 || dag < 1) throw new AccountException("The day does not correspond to the month"); break;
+                case "juli": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month"); break;
+                case "august": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month"); break;
+                case "september": if (dag > 30 || dag < 1) throw new AccountException("The day does not correspond to the month"); break;
+                case "oktober": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month"); break;
+                case "november": if (dag > 30 || dag < 1) throw new AccountException("The day does not correspond to the month"); break;
+                case "december": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month"); break;
             }
 
             for (int i = 0; i < cprChar.length; i++) {
