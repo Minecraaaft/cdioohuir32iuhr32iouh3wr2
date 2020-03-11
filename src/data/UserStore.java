@@ -2,6 +2,7 @@ package data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 public class UserStore implements Serializable {
@@ -22,6 +23,7 @@ public class UserStore implements Serializable {
                 userDTO = users.get(i);
             }
         }
+
         return userDTO;
     }
 

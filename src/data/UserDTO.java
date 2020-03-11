@@ -17,7 +17,6 @@ public class UserDTO implements Serializable, IUserDTO {
     private String password;
     private String ini;
     private List<String> roles;
-    //TODO Add relevant fields
 
     public UserDTO(int userID, String userName, String cpr, String ini, List<String> roles, String password) {
         this.userId = userID;

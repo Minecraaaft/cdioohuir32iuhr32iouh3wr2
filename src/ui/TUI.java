@@ -109,14 +109,37 @@ public class TUI implements IUI {
     public void retBruger() {
         listBruger();
         System.out.println("Please enter userID from the user you wish to edit: ");
-        int id = scanner.nextInt();
+        String idString = scanner.next();
+        int id = 0;
+        try {
+            id = Integer.parseInt(idString);
+        } catch (NumberFormatException e ) {
+
+        }
+
+        while (!(id >= 11 && id <= 99)) {
+            System.out.println("Wrong input, please type a valid id:");
+            idString = scanner.next();
+            try {
+                id = Integer.parseInt(idString);
+            } catch (NumberFormatException e ) {
+
+            }
+        }
+
         System.out.println("" +
                 "\nPress 1-3: " +
                 "\n1. edit username" +
                 "\n2. add role" +
                 "\n3. remove role" +
                 "\n4. change role");
-        int option = scanner.nextInt();
+        String optionString = scanner.next();
+        while (!optionString.equals("1") && !optionString.equals("2") && !optionString.equals("3") && !optionString.equals("4")) {
+            System.out.println("Wrong input, please type a number from 1 - 4:");
+            optionString = scanner.next();
+        }
+        int option = Integer.parseInt(optionString);
+
         if (option == 1) {
             System.out.println("Type new username: ");
             String newUsername = scanner.next();
@@ -167,7 +190,24 @@ public class TUI implements IUI {
         listBruger();
         System.out.println("Please enter userID you wish to delete: ");
 
-        int userToDelete = scanner.nextInt();
+        String userToDeleteString = scanner.next();
+        int userToDelete = 0;
+        try {
+            userToDelete = Integer.parseInt(userToDeleteString);
+        } catch (NumberFormatException e ) {
+
+        }
+
+        while (!(userToDelete >= 11 && userToDelete <= 99)) {
+            System.out.println("Wrong input, please type a valid id:");
+            userToDeleteString = scanner.next();
+            try {
+                userToDelete = Integer.parseInt(userToDeleteString);
+            } catch (NumberFormatException e ) {
+
+            }
+        }
+
         try {
             funk.deleteUser(userToDelete);
         } catch (IUserDAO.DALException e) {
