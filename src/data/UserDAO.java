@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO implements IUserDAO, Serializable {
-    private List<UserDTO> users = new ArrayList<>();
     private String fileName = "data.txt";
 
     public UserDAO() {

@@ -5,6 +5,7 @@ import data.IUserDTO;
 import data.UserDTO;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -20,6 +21,9 @@ public class Funk implements IFunk {
         List<UserDTO> brugere;
 
         brugere = dao.getUserList();
+
+
+
         int userID = accountLogic.findUserID(brugere);
         accountLogic.checkUsedUsername(userName, brugere);
         accountLogic.checkCPR(cpr);
@@ -67,7 +71,17 @@ public class Funk implements IFunk {
     }
 
     public List getUsers() throws IUserDAO.DALException {
-        return dao.getUserList();
+        List users = dao.getUserList();
+        users.sort(new Comparator<UserDTO>() {
+            @Override
+            public int compare(UserDTO o1, UserDTO o2) {
+                if (o1.getUserId() > o2.getUserId()) {
+                    return 1;
+                }else
+                    return -1;
+            }
+        });
+        return users;
     }
 
     public void deleteUser(int userID) throws IUserDAO.DALException {
@@ -79,11 +93,26 @@ public class Funk implements IFunk {
         public int findUserID(List<UserDTO> list) throws AccountException {
             ArrayList<UserDTO> brugere = (ArrayList<UserDTO>) list;
 
+            brugere.sort(new Comparator<UserDTO>() {
+                @Override
+                public int compare(UserDTO o1, UserDTO o2) {
+                    if (o1.getUserId() > o2.getUserId()) {
+                        return 1;
+                    }else
+                        return -1;
+                }
+            });
+
+
             for (int i = 11; i < 100; i++) {
+                boolean idUsed = true;
                 for (int j = 0; j < brugere.size(); j++) {
                     if (brugere.get(j).getUserId() == i) {
-                        continue;
+                        idUsed = false;
                     }
+
+                }
+                if (idUsed) {
                     return i;
                 }
             }

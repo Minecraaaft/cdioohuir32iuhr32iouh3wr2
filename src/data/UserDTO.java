@@ -75,4 +75,5 @@ public class UserDTO implements Serializable, IUserDTO {
         return "[userId = " + userId + ", userName = " + userName + ", ini = " + ini + ", roles = " + roles + "]";
     }
 
+
 }
