@@ -48,14 +48,25 @@ public class Funk implements IFunk {
     public void addRole(int id, String role) throws IUserDAO.DALException, AccountException {
         accountLogic.checkRole(role);
         UserDTO userDTO = dao.getUser(id);
+        //Check if role is the same as the user
+        for (int i = 0; i < role.length(); i++) {
+            if(userDTO.getRoles().get(i).equals(role)){
+                throw new AccountException("Role already assigned to you!");
+            }
+        }
         userDTO.addRole(role);
-
         dao.updateUser(userDTO);
     }
 
     public void removeRole(int id, String role) throws IUserDAO.DALException, AccountException {
         accountLogic.checkRole(role);
         UserDTO userDTO = dao.getUser(id);
+        //Check if role is the same as the user
+        for (int i = 0; i < role.length(); i++) {
+            if(!userDTO.getRoles().get(i).equals(role)){
+                throw new AccountException("Cannot remove a role, which is not assigned to you!");
+            }
+        }
         userDTO.removeRole(role);
 
         dao.updateUser(userDTO);
