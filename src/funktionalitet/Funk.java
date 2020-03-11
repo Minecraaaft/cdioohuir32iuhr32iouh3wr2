@@ -28,8 +28,19 @@ public class Funk implements IFunk {
         accountLogic.checkUsedUsername(userName, brugere);
         accountLogic.checkCPR(cpr);
         String ini = accountLogic.createIni(userName);
+        String pass = "";
+        //Random password gennerator (2 first are capital letters, next 2 are lower case, next 4 are numbers)
+        char randomHolder;
+        for (int i = 0; i < 2; i++) {
+            randomHolder = (char)((int) (Math.random()*26) + 97);
+            pass +=randomHolder;
+        }
+        for (int i = 0; i < 2; i++) {
+            randomHolder = (char)((int) (Math.random()*26) + 65);
+            pass +=randomHolder;
+        }
 
-        String pass = "mangler";
+        pass +=(int)(Math.random()*8999 + 1000);
 
         dao.createUser(new UserDTO(userID, userName, cpr, ini, roles, pass));
     }

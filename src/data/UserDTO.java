@@ -72,7 +72,7 @@ public class UserDTO implements Serializable, IUserDTO {
 
     @Override
     public String toString() {
-        return "[userId = " + userId + ", userName = " + userName + ", ini = " + ini + ", roles = " + roles + "]";
+        return "[userId = " + userId + ", userName = " + userName + ", ini = " + ini + ", roles = " + roles + ", Password = " + password + "]";
     }
 
 

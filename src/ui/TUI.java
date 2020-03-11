@@ -60,11 +60,11 @@ public class TUI implements IUI {
         List<String> roles = new ArrayList<>();
         int role = 0;
         String input = "";
-        scanner.next();
-        input = scanner.nextLine();
+
+        input = scanner.next();
         while (!input.equals("1") && !input.equals("2") && !input.equals("3") && !input.equals("4")) {
             System.out.println("Wrong input, please type a number from 1 - 4:");
-            input = scanner.nextLine();
+            input = scanner.next();
         }
 
         role = Integer.parseInt(input);
