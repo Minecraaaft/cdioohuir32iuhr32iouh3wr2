@@ -114,9 +114,45 @@ public class Funk implements IFunk {
 
         public boolean checkCPR(String cpr) throws AccountException {
             char[] cprChar = cpr.toCharArray();
+            int dag = Integer.parseInt(cpr.substring(0,2));
+            int maaned = Integer.parseInt(cpr.substring(2,4));
+            String month="";
             if (cprChar.length != 10) {
                 throw new AccountException("CPR number not the correct length");
             }
+            else if(maaned > 12 || maaned < 1 ){
+                throw new AccountException("CPR birth month is incorrect");
+            }
+
+            switch (maaned){
+                case 1: month = "januar"; break;
+                case 2: month = "februar"; break;
+                case 3: month = "marts"; break;
+                case 4: month = "april"; break;
+                case 5: month = "maj"; break;
+                case 6: month = "juni"; break;
+                case 7: month = "juli"; break;
+                case 8: month = "august"; break;
+                case 9: month = "september"; break;
+                case 10: month = "oktober"; break;
+                case 11: month = "november"; break;
+                case 12: month = "december"; break;
+            }
+            switch (month){
+                case "januar": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
+                case "februar": if (dag > 28 || dag < 1) throw new AccountException("The day does not correspond to the month");
+                case "marts": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
+                case "april": if (dag > 30 || dag < 1) throw new AccountException("The day does not correspond to the month");
+                case "maj": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
+                case "juni": if (dag > 30 || dag < 1) throw new AccountException("The day does not correspond to the month");
+                case "juli": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
+                case "august": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
+                case "september": if (dag > 30 || dag < 1) throw new AccountException("The day does not correspond to the month");
+                case "oktober": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
+                case "november": if (dag > 30 || dag < 1) throw new AccountException("The day does not correspond to the month");
+                case "december": if (dag > 31 || dag < 1) throw new AccountException("The day does not correspond to the month");
+            }
+
             for (int i = 0; i < cprChar.length; i++) {
                 if (cprChar[i] < 48 || cprChar[i] > 57) {
                     throw new AccountException("CPR number not corrrect");
