@@ -58,10 +58,17 @@ public class TUI implements IUI {
                 "\n3: Operator" +
                 "\n4: Admin");
         List<String> roles = new ArrayList<>();
-        int role = scanner.nextInt();
-        while (role != 1 && role != 2 && role != 3 && role != 4) {
-            role = scanner.nextInt();
+        int role = 0;
+        String input = "";
+        scanner.next();
+        input = scanner.nextLine();
+        while (!input.equals("1") && !input.equals("2") && !input.equals("3") && !input.equals("4")) {
+            System.out.println("Wrong input, please type a number from 1 - 4:");
+            input = scanner.nextLine();
         }
+
+        role = Integer.parseInt(input);
+
         if (role == 1) {
             roles.add("Pharmacist");
         } else if (role == 2) {
