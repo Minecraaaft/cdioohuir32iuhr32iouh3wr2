@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.List;
 
 public class UserDAO implements IUserDAO, Serializable {
-    private String fileName = "data.txt";
+    private String fileName = "res/data.txt";
 
     public UserDAO() {
 
