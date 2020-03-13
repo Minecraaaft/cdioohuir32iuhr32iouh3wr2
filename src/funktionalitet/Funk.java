@@ -27,7 +27,7 @@ public class Funk implements IFunk {
         accountLogic.checkCPR(cpr);
         String ini = accountLogic.createIni(userName);
         String pass = "";
-        //Random password gennerator (2 first are capital letters, next 2 are lower case, next 4 are numbers)
+        //Random password generator (2 first are capital letters, next 2 are lower case, next 4 are numbers)
         char randomHolder;
         for (int i = 0; i < 2; i++) {
             randomHolder = (char)((int) (Math.random()*26) + 97);
@@ -229,7 +229,7 @@ public class Funk implements IFunk {
             if (role.equals("Admin") || role.equals("Foreman") || role.equals("Operator") || role.equals("Pharmacist")) {
 
             } else {
-                throw new AccountException("Role missspelled");
+                throw new AccountException("Role misspelled");
             }
         }
 
