@@ -1,8 +1,6 @@
 package data;
 
-
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO implements IUserDAO, Serializable {
@@ -79,7 +77,6 @@ public class UserDAO implements IUserDAO, Serializable {
         saveUsers(userStore);
 
     }
-
 
     private UserStore loadUsers() throws DALException {
         UserStore userStore = new UserStore();

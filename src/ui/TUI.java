@@ -1,7 +1,6 @@
 package ui;
 
 import data.IUserDAO;
-import funktionalitet.Funk;
 import funktionalitet.IFunk;
 
 import java.util.ArrayList;
@@ -10,8 +9,8 @@ import java.util.Scanner;
 
 public class TUI implements IUI {
     private Scanner scanner = new Scanner(System.in);
-    private Funk funk;
-    public TUI(Funk funk) {
+    private IFunk funk;
+    public TUI(IFunk funk) {
         this.funk = funk;
     }
 
@@ -78,8 +77,6 @@ public class TUI implements IUI {
         } else if (role == 4) {
             roles.add("Admin");
         }
-
-
 
         try {
             funk.makeUser(name, cpr, roles);

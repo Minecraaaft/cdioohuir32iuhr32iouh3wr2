@@ -1,24 +1,20 @@
 import data.IUserDAO;
 
 import data.UserDAO;
-import data.UserStore;
 import funktionalitet.Funk;
+import funktionalitet.IFunk;
 import ui.IUI;
 import ui.TUI;
 
-import java.util.Scanner;
-
 public class Main {
-    public static void main(String[] args) throws IUserDAO.DALException {
+    public static void main(String[] args) {
+        IUserDAO userDAO = new UserDAO();
 
-        UserDAO userDAO = new UserDAO();
-
-        Funk funk = new Funk(userDAO);
+        IFunk funk = new Funk(userDAO);
         IUI ui = new TUI(funk);
         while(true) {
             ui.menu();
         }
-
 
     }
 }

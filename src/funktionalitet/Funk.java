@@ -22,8 +22,6 @@ public class Funk implements IFunk {
 
         brugere = dao.getUserList();
 
-
-
         int userID = accountLogic.findUserID(brugere);
         accountLogic.checkUsedUsername(userName, brugere);
         accountLogic.checkCPR(cpr);
